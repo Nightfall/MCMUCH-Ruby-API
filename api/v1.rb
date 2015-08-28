@@ -4,6 +4,8 @@ class APIv1 < Sinatra::Base
     configure :development do
         use BetterErrors::Middleware
         BetterErrors.application_root = __dir__
+
+        register Sinatra::Reloader
     end
 
     get "/" do

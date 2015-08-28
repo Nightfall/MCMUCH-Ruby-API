@@ -3,10 +3,12 @@ source "https://rubygems.org"
 gem "rake"
 
 gem "sinatra", require: "sinatra/base"
+gem "sinatra-contrib"
 
 gem "sinatra-activerecord"
 gem "sqlite3"
-gem "activeuuid"
+
+gem "require_all"
 
 group :development do
     gem "better_errors"
