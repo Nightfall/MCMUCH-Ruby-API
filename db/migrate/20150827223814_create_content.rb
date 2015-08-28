@@ -1,12 +1,19 @@
 class CreateContent < ActiveRecord::Migration
-    def change
-        create_table :content, id: false do |t|
-            t.binary :sha1, limit: 20, primary_key: true
+    def up
+        # ActiveRecord a shit
+        execute %Q{
+            CREATE TABLE "content" (
+                "sha1" blob(20) PRIMARY KEY NOT NULL,
+                "name" varchar,
+                "description" text,
+                "type" varchar
+            )
+        }
+    end
 
-            t.string :name
-            t.text :description
-
-            t.string :type
-        end
+    def down
+        execute %Q{
+            DROP TABLE "content"
+        }
     end
 end
