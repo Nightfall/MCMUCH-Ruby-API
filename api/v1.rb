@@ -8,7 +8,18 @@ class APIv1 < Sinatra::Base
         register Sinatra::Reloader
     end
 
-    get "/" do
-        throw "test"
+    before do
+        request.body.rewind
+        @body = request.body.read
+        @json = JSON.parse @body if @body.size > 0
+    end
+
+    get "/content" do
+        Content.all.to_json
+    end
+
+    put "/content" do
+        c = Content.new @json
+        c.save!
     end
 end
