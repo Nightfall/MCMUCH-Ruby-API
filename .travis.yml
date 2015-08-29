@@ -1,0 +1,7 @@
+langauge: ruby
+
+script:
+  - rubocop
+  - rake ci
+
+cache: bundler

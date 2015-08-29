@@ -18,3 +18,5 @@ task "spec:html_report": [:spec] do
   require "simplecov-html"
   SimpleCov::Formatter::HTMLFormatter.new.format(SimpleCov.result)
 end
+
+task ci: ["db:migrate", "spec", "spec:codecov"]
