@@ -35,7 +35,9 @@ class APIv1 < Sinatra::Base
   end
 
   put "/content" do
-    Content.new(@json).save!.to_json
+    c = Content.new(@json)
+    c.save!
+    c.to_json
   end
 
   get "/users" do
@@ -47,7 +49,9 @@ class APIv1 < Sinatra::Base
   end
 
   put "/users" do
-    User.new(@json).save!.to_json
+    u = User.new(@json)
+    u.save!
+    u.to_json
   end
 
   error do
