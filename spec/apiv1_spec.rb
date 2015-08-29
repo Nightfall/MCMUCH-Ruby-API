@@ -21,6 +21,6 @@ describe APIv1 do
       "user": "TestUser"
     }.to_json
 
-    puts Content.all.to_json
+    expect(last_response.ok?).to be true
   end
 end
