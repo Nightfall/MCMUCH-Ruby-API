@@ -4,6 +4,7 @@ require "rspec/core/rake_task"
 
 ENV["SIMPLECOV_NO_DEFAULTS"] = "true"
 require "simplecov"
+ENV["SIMPLECOV_NO_DEFAULTS"] = nil
 
 RSpec::Core::RakeTask.new :spec
 
