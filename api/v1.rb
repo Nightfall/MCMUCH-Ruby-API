@@ -47,4 +47,10 @@ class APIv1 < Sinatra::Base
   put "/users" do
     User.new(@json).save!.to_json
   end
+
+  error do
+    status 500
+    e = env["sinatra.error"]
+    { result: "error", message: e.to_s }.to_json
+  end
 end
