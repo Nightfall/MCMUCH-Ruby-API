@@ -4,7 +4,6 @@ class User < ActiveRecord::Base
   class << self
     def auth(id, uuid)
       user = find_by(id)
-      p user.salt
       user.uuid_hash == sha1_salt(uuid, user.salt)
     end
 

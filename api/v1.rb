@@ -47,8 +47,6 @@ class APIv1 < Sinatra::Base
 
   put "/user/:uuid" do |uuid|
     hashed = User.sha1(uuid)
-    p hashed[0]
-    p hashed[1]
     @json['uuid_hash'] = hashed[0]
     @json['salt'] = hashed[1]
     User.new(@json).save!.to_json
