@@ -14,6 +14,8 @@ class APIv1 < Sinatra::Base
     request.body.rewind
     @body = request.body.read
     @json = JSON.parse @body if @body.size > 0
+
+    content_type :json
   end
 
   get "/content/:name_or_sha1" do |name_or_sha1|
