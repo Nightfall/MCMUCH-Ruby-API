@@ -4,7 +4,7 @@ class CreateContent < ActiveRecord::Migration
         execute %(
             CREATE TABLE "content" (
                 "sha1" blob(20) PRIMARY KEY NOT NULL,
-                "name" varchar,
+                "name" varchar UNIQUE,
                 "description" text,
                 "type" varchar
             )
