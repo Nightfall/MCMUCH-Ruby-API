@@ -1,4 +1,4 @@
-require 'digest/sha1'
+require "digest/sha1"
 
 class APIv1 < Sinatra::Base
     register Sinatra::ActiveRecordExtension
@@ -20,7 +20,6 @@ class APIv1 < Sinatra::Base
         Content.where(name: name).to_json
     end
 
-
     get "/content/user=:user" do |user|
         Content.where(user: user).to_json
     end
@@ -30,7 +29,7 @@ class APIv1 < Sinatra::Base
     end
 
     put "/content/:uuid" do |uuid|
-        if User.auth(@json['user_id'], uuid) then
+        if User.auth(@json["user_id"], uuid)
             Content.new(@json).save!
         else
             halt 401
@@ -47,8 +46,8 @@ class APIv1 < Sinatra::Base
 
     put "/user/:uuid" do |uuid|
         hashed = User.sha1(uuid)
-        @json['uuid_hash'] = hashed[0]
-        @json['salt'] = hashed[1]
+        @json["uuid_hash"] = hashed[0]
+        @json["salt"] = hashed[1]
         User.new(@json).save!.to_json
     end
 end

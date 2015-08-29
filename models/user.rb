@@ -1,4 +1,4 @@
-require 'securerandom'
+require "securerandom"
 
 class User < ActiveRecord::Base
     class << self
