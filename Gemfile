@@ -13,4 +13,6 @@ gem "require_all"
 group :development do
     gem "better_errors"
     gem "binding_of_caller"
+
+    gem "rubocop"
 end
