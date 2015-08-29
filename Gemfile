@@ -25,4 +25,8 @@ group :test do
   gem "rspec"
   gem "rack-test", require: "rack/test"
   gem "database_cleaner"
+
+  gem "simplecov", require: false
+  gem "simplecov-summary", require: false, github: "inossidabile/simplecov-summary"
+  gem "codecov", require: false
 end

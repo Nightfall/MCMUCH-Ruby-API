@@ -1,4 +1,7 @@
 ENV["RACK_ENV"] = "test"
+
+require "simplecov"
+
 require_relative "../config/setup"
 
 RSpec.configure do |c|
