@@ -5,7 +5,10 @@ class Content < ActiveRecord::Base
 
   belongs_to :user
 
-  validates :sha1, presence: true, format: { with: /[0-9a-f]{40}/, message: "sha1 format is invalid" }
+  validates :sha1, format: {
+    with: /[0-9a-f]{40}/,
+    message: "has an invalid format"
+  }
 
   validates :user, presence: true
 
