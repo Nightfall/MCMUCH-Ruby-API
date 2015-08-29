@@ -16,3 +16,7 @@ group :development do
 
     gem "rubocop"
 end
+
+group :production do
+    gem "passenger"
+end
