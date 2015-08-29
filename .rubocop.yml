@@ -7,3 +7,4 @@ Style/Documentation:
 AllCops:
   Exclude:
     - "db/schema.rb"
+    - "vendor/**/*"
