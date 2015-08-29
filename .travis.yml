@@ -1,7 +1,7 @@
 langauge: ruby
 
 script:
-  - rubocop
-  - rake ci
+  - bundle exec rubocop
+  - bundle exec rake ci
 
 cache: bundler
