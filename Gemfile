@@ -11,12 +11,18 @@ gem "sqlite3"
 gem "require_all"
 
 group :development do
-    gem "better_errors"
-    gem "binding_of_caller"
+  gem "better_errors"
+  gem "binding_of_caller"
 
-    gem "rubocop"
+  gem "rubocop"
 end
 
 group :production do
-    gem "passenger"
+  gem "passenger"
+end
+
+group :test do
+  gem "rspec"
+  gem "rack-test", require: "rack/test"
+  gem "database_cleaner"
 end

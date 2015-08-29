@@ -1,24 +1,13 @@
 require "securerandom"
 
 class User < ActiveRecord::Base
-    class << self
-        def auth(id, uuid)
-            user = find_by(id)
-            user.uuid_hash == sha1_salt(uuid, user.salt)
-        end
+  def uuid=(uuid)
+    self.salt = SecureRandom.base64
+    self.uuid_hash = Digest::SHA1.hexdigest(uuid + salt)
+  end
 
-        def sha1(to_hash)
-            salt = SecureRandom.base64
-            [sha1_salt(to_hash, salt), salt]
-        end
+  has_many :content
 
-        def sha1_salt(to_hash, salt)
-            Digest::SHA1.hexdigest(to_hash + salt)
-        end
-    end
-
-    has_many :content
-
-    validates :uuid_hash, presence: true
-    validates :salt, presence: true
+  validates :uuid_hash, presence: true
+  validates :salt, presence: true
 end
