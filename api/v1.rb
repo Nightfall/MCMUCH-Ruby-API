@@ -3,12 +3,14 @@ require "digest/sha1"
 class APIv1 < Sinatra::Base
   register Sinatra::ActiveRecordExtension
 
+  # :nocov:
   configure :development do
     use BetterErrors::Middleware
     BetterErrors.application_root = __dir__
 
     register Sinatra::Reloader
   end
+  # :nocov:
 
   before do
     request.body.rewind
