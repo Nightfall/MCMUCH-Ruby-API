@@ -9,6 +9,7 @@ SimpleCov.start do
 
   add_group "api:v1", "api/v1.rb"
   add_group "models", "models"
+  add_group "helpers", "helpers"
 
   merge_timeout 3600
 end

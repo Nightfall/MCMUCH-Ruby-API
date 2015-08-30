@@ -1,7 +1,7 @@
 require "digest"
 
 class MinecraftDigest
-  def self.java_hex_digest(data)
+  def self.hexdigest(data)
     hash = Digest::SHA1.digest(data).bytes
 
     negative = (hash[0] & 0x80) == 0x80
