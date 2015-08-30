@@ -8,7 +8,7 @@ class MinecraftDigest
 
     twos_compliment(hash) if negative
 
-    string = hash.map { |b| sprintf("%02x", b)[-2..-1] }.join.sub(/^0+/, "")
+    string = hash.map { |b| format("%02x", b)[-2..-1] }.join.sub(/^0+/, "")
 
     string = "-" + string if negative
 
@@ -26,6 +26,3 @@ class MinecraftDigest
     end
   end
 end
-
-
-
