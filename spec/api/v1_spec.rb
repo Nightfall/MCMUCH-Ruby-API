@@ -14,9 +14,9 @@ describe APIv1 do
 
   it "lets me add content" do
     add_testuser
-    put "/content", {
+    put "/v1/content", {
       "sha1": "3f786850e387550fdab836ed7e6dc881de23001b",
-      "name": "Test Content",
+      "title": "Test Content",
       "type": "test",
       "user": "TestUser"
     }.to_json

@@ -2,10 +2,9 @@ source "https://rubygems.org"
 
 gem "rake"
 
-gem "sinatra", require: "sinatra/base"
-gem "sinatra-contrib"
+gem "grape"
 
-gem "sinatra-activerecord"
+gem "grape-activerecord"
 gem "sqlite3"
 
 gem "require_all"

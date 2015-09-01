@@ -1,64 +1,41 @@
-require "digest/sha1"
+class APIv1 < Grape::API
+  version :v1, using: :path
+  format :json
+  rescue_from :all unless ENV["RACK_ENV"] == "test"
 
-class APIv1 < Sinatra::Base
-  register Sinatra::ActiveRecordExtension
+  resource :content do
+    get ":sha1" do
+      Content.get(name_or_sha1).as_json
+    end
 
-  # :nocov:
-  configure :development do
-    use BetterErrors::Middleware
-    BetterErrors.application_root = __dir__
+    get "by_user/:user" do |user|
+      Content.where(user: user).as_json
+    end
 
-    register Sinatra::Reloader
-  end
-  # :nocov:
+    get do
+      Content.all.as_json
+    end
 
-  before do
-    request.body.rewind
-    @body = request.body.read
-    @json = JSON.parse @body if @body.size > 0
-
-    content_type :json
-  end
-
-  get "/content/:name_or_sha1" do |name_or_sha1|
-    if name_or_sha1 =~ /[0-9a-f]{40}/
-      Content.get(name_or_sha1).to_json
-    else
-      Content.find_by(name: name_or_sha1).to_json
+    put do
+      c = Content.new(@json)
+      c.save!
+      c.as_json
     end
   end
 
-  get "/content/by_user/:user" do |user|
-    Content.where(user: user).to_json
-  end
+  resource :users do
+    get do
+      User.all.as_json
+    end
 
-  get "/content" do
-    Content.all.to_json
-  end
+    get ":id" do |id|
+      User.find_by(id: id.to_i).as_json
+    end
 
-  put "/content" do
-    c = Content.new(@json)
-    c.save!
-    c.to_json
-  end
-
-  get "/users" do
-    User.all.to_json
-  end
-
-  get "/users/:id" do |id|
-    User.find_by(id: id.to_i).to_json
-  end
-
-  put "/users" do
-    u = User.new(@json)
-    u.save!
-    u.to_json
-  end
-
-  error do
-    status 500
-    e = env["sinatra.error"]
-    { result: "error", message: e.to_s }.to_json
+    put do
+      u = User.new(@json)
+      u.save!
+      u.as_json
+    end
   end
 end
