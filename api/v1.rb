@@ -1,7 +1,7 @@
 class APIv1 < Grape::API
   version :v1, using: :path
   format :json
-  rescue_from :all unless ENV["RACK_ENV"] == "test"
+  rescue_from :all if ENV["RACK_ENV"] == "production"
 
   resource :content do
     get ":sha1" do
