@@ -1,28 +1,51 @@
 class Init < ActiveRecord::Migration
-  def up
-    execute %(
-      CREATE TABLE "users" (
-        "id" blob(16) PRIMARY KEY NOT NULL,
-        "username" varchar(16) UNIQUE
-      );
-    ).squish
+  def change
+    create_table :users, id: false do |t|
+      t.uuid :id, primary_key: true
+      t.uuid :mojang_uuid
 
-    execute %(
-      CREATE TABLE "content" (
-        "sha1" blob(20) PRIMARY KEY NOT NULL,
-        "title" text,
-        "description" text,
-        "type" varchar(20),
-        "user_id" blob(16) NOT NULL,
-        FOREIGN KEY("user_id") REFERENCES users("id")
-      );
-    ).squish
+      t.string :username
+      t.string :role
+
+      t.datetime :created_at
+      t.datetime :last_login
+    end
+
+    add_index :users, :mojang_uuid, unique: true
+    add_index :users, :username, unique: true
+
+    create_table :content, id: false do |t|
+      t.column :sha1, "binary(20) PRIMARY KEY"
+      t.integer :filesize
+
+      t.string :title
+      t.text :description
+
+      t.string :type
+      t.text :tags_json
+      t.string :visibility
+
+      t.datetime :created_at
+
+      t.belongs_to :user
+    end
 
     add_index :content, :title
-  end
+    add_index :content, :type
+    # add_index :content, :user
 
-  def down
-    drop_table :content
-    drop_table :users
+    create_table :comments, id: false do |t|
+      t.uuid :id, primary_key: true
+
+      t.belongs_to :content
+      t.belongs_to :user
+      t.belongs_to :comment
+
+      t.text :comment
+      t.integer :rating
+
+      t.datetime :created_at
+      t.datetime :edited_at
+    end
   end
 end

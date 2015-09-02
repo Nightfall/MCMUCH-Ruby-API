@@ -7,6 +7,8 @@ gem "grape"
 gem "grape-activerecord"
 gem "sqlite3"
 
+gem "activeuuid"
+
 gem "require_all"
 
 group :development do
@@ -20,12 +22,15 @@ group :production do
   gem "passenger"
 end
 
-group :test do
+group :test, :development do
   gem "rspec"
   gem "rack-test", require: "rack/test"
   gem "database_cleaner"
 
   gem "simplecov", require: false
   gem "simplecov-summary", require: false, github: "inossidabile/simplecov-summary"
+end
+
+group :test do
   gem "codecov", require: false
 end

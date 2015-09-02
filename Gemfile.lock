@@ -22,6 +22,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    activeuuid (0.6.1)
+      activerecord (>= 3.1)
+      uuidtools
     arel (6.0.3)
     ast (2.1.0)
     astrolabe (1.3.1)
@@ -122,6 +125,7 @@ GEM
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     url (0.3.2)
+    uuidtools (2.1.5)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -132,6 +136,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activeuuid
   better_errors
   binding_of_caller
   codecov
