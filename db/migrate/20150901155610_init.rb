@@ -1,7 +1,8 @@
 class Init < ActiveRecord::Migration
   def change
-    create_table :users, id: false do |t|
-      t.uuid :id, primary_key: true
+    postgre = ActiveRecord::Base.connection.adapter_name.downcase == 'postgresql'
+
+    create_table :users do |t|
       t.uuid :mojang_uuid
 
       t.string :username
@@ -14,31 +15,45 @@ class Init < ActiveRecord::Migration
     add_index :users, :mojang_uuid, unique: true
     add_index :users, :username, unique: true
 
-    create_table :content, id: false do |t|
-      t.column :sha1, "binary(20) PRIMARY KEY"
-      t.integer :filesize
-
+    create_table :creations do |t|
       t.string :title
       t.text :description
 
-      t.string :type
-      t.text :tags_json
       t.string :visibility
-
-      t.datetime :created_at
 
       t.belongs_to :user
     end
 
-    add_index :content, :title
-    add_index :content, :type
-    # add_index :content, :user
+    add_index :creations, :title
+    add_index :creations, :user_id
 
-    create_table :comments, id: false do |t|
-      t.uuid :id, primary_key: true
+    create_table :revisions do |t|
+      t.column :sha1, "binary(20)"
+      t.integer :filesize
 
-      t.belongs_to :content
+      t.belongs_to :creation
+
+      t.string :type
+
+      if postgre
+        t.column :tags, "jsonb"
+      else
+        t.text :tags_json
+      end
+
+      t.datetime :created_at
+    end
+
+    add_index :revisions, :sha1, unique: true
+    add_index :revisions, :creation_id
+    add_index :revisions, :type
+    execute "ADD INDEX index_revisions_on_tags ON revisions USING gin (tags);" if postgre
+
+    create_table :comments do |t|
       t.belongs_to :user
+
+      t.belongs_to :revision
+      # OR
       t.belongs_to :comment
 
       t.text :comment
@@ -47,5 +62,9 @@ class Init < ActiveRecord::Migration
       t.datetime :created_at
       t.datetime :edited_at
     end
+
+    add_index :comments, :user_id
+    add_index :comments, :revision_id
+    add_index :comments, :comment_id
   end
 end
