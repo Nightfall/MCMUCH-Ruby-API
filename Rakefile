@@ -22,15 +22,13 @@ end
 
 task ci: ["db:migrate", "spec", "spec:codecov"]
 
-namespace :grape do
-  desc "Print compiled grape routes"
-  task :routes do
-    class API < Grape::API
-      mount APIv1
-    end
-    API.routes.each do |route|
-      version = route.route_version ? "(#{route.route_version}) " : ""
-      puts "#{version}#{route.route_method} #{route.route_path}"
-    end
+desc "Print compiled grape routes"
+task :routes do
+  class API < Grape::API
+    mount APIv1 => "/v1"
+  end
+  API.routes.each do |route|
+    version = route.route_version ? "(#{route.route_version}) " : ""
+    puts "#{version}#{route.route_method} #{route.route_path}"
   end
 end

@@ -8,5 +8,5 @@ if ENV["RACK_ENV"] == "development"
 end
 
 run Rack::URLMap.new(
-  "/api/v1" => APIv1.new
+  "/v1" => APIv1.new
 )
