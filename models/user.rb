@@ -1,10 +1,14 @@
 require "securerandom"
 
 class User < ActiveRecord::Base
-  self.primary_key = "id"
+  include ActiveUUID::UUID
 
-  has_many :content
+  has_many :creations
+  has_many :comments
 
-  validates :id, presence: true
+  validates :mojang_uuid, presence: true
   validates :username, presence: true
+  validates :role, presence: true, inclusion: { in: %w(user moderator admin) }
+  validates :created_at, presence: true
+  validates :last_login, presence: true
 end

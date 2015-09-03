@@ -1,7 +1,5 @@
 class Init < ActiveRecord::Migration
   def change
-    postgre = ActiveRecord::Base.connection.adapter_name.downcase == "postgresql"
-
     create_table :users do |t|
       t.uuid :mojang_uuid
 
@@ -33,9 +31,11 @@ class Init < ActiveRecord::Migration
 
       t.belongs_to :creation
 
+      t.string :title
+
       t.string :type
 
-      if postgre
+      if ::POSTGRE
         t.column :tags, "jsonb"
       else
         t.text :tags_json
@@ -47,14 +47,12 @@ class Init < ActiveRecord::Migration
     add_index :revisions, :sha1, unique: true
     add_index :revisions, :creation_id
     add_index :revisions, :type
-    execute "ADD INDEX index_revisions_on_tags ON revisions USING gin (tags);" if postgre
+    execute "ADD INDEX index_revisions_on_tags ON revisions USING gin (tags);" if ::POSTGRE
 
     create_table :comments do |t|
       t.belongs_to :user
 
-      t.belongs_to :revision
-      # OR
-      t.belongs_to :comment
+      t.belongs_to :commentable, polymorphic: true, index: true
 
       t.text :comment
       t.integer :rating
@@ -64,7 +62,5 @@ class Init < ActiveRecord::Migration
     end
 
     add_index :comments, :user_id
-    add_index :comments, :revision_id
-    add_index :comments, :comment_id
   end
 end
