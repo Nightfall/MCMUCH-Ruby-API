@@ -1,6 +1,6 @@
 class Init < ActiveRecord::Migration
   def change
-    postgre = ActiveRecord::Base.connection.adapter_name.downcase == 'postgresql'
+    postgre = ActiveRecord::Base.connection.adapter_name.downcase == "postgresql"
 
     create_table :users do |t|
       t.uuid :mojang_uuid
