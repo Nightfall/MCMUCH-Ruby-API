@@ -3,8 +3,8 @@ class Init < ActiveRecord::Migration
     create_table :users do |t|
       t.uuid :mojang_uuid
 
-      t.string :username
-      t.string :role
+      t.text :username
+      t.text :role
 
       t.datetime :created_at
       t.datetime :last_login
@@ -14,10 +14,10 @@ class Init < ActiveRecord::Migration
     add_index :users, :username, unique: true
 
     create_table :creations do |t|
-      t.string :title
+      t.text :title
       t.text :description
 
-      t.string :visibility
+      t.text :visibility
 
       t.belongs_to :user
     end
@@ -26,20 +26,16 @@ class Init < ActiveRecord::Migration
     add_index :creations, :user_id
 
     create_table :revisions do |t|
-      t.column :sha1, "binary(20)"
+      t.text :sha1
       t.integer :filesize
 
       t.belongs_to :creation
 
-      t.string :title
+      t.text :title
 
-      t.string :type
+      t.text :type
 
-      if ::POSTGRE
-        t.column :tags, "jsonb"
-      else
-        t.text :tags_json
-      end
+      t.column :tags, "text[]"
 
       t.datetime :created_at
     end
@@ -47,7 +43,7 @@ class Init < ActiveRecord::Migration
     add_index :revisions, :sha1, unique: true
     add_index :revisions, :creation_id
     add_index :revisions, :type
-    execute "ADD INDEX index_revisions_on_tags ON revisions USING gin (tags);" if ::POSTGRE
+    execute "CREATE INDEX index_revisions_on_tags ON revisions USING gin (tags);"
 
     create_table :comments do |t|
       t.belongs_to :user

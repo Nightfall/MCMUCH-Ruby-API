@@ -5,7 +5,7 @@ gem "rake"
 gem "grape"
 
 gem "grape-activerecord"
-gem "sqlite3"
+gem "pg"
 
 gem "activeuuid"
 
