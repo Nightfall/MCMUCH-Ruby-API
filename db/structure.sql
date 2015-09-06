@@ -73,7 +73,9 @@ CREATE TABLE creations (
     title text,
     description text,
     visibility text,
-    user_id integer
+    tags text[],
+    user_id integer,
+    created_at timestamp without time zone
 );
 
 
@@ -107,7 +109,6 @@ CREATE TABLE revisions (
     creation_id integer,
     title text,
     type text,
-    tags text[],
     created_at timestamp without time zone
 );
 
@@ -248,6 +249,20 @@ CREATE INDEX index_comments_on_user_id ON comments USING btree (user_id);
 
 
 --
+-- Name: index_creations_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_creations_on_created_at ON creations USING btree (created_at);
+
+
+--
+-- Name: index_creations_on_tags; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_creations_on_tags ON creations USING gin (tags);
+
+
+--
 -- Name: index_creations_on_title; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -262,6 +277,13 @@ CREATE INDEX index_creations_on_user_id ON creations USING btree (user_id);
 
 
 --
+-- Name: index_revisions_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_revisions_on_created_at ON revisions USING btree (created_at);
+
+
+--
 -- Name: index_revisions_on_creation_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -273,13 +295,6 @@ CREATE INDEX index_revisions_on_creation_id ON revisions USING btree (creation_i
 --
 
 CREATE UNIQUE INDEX index_revisions_on_sha1 ON revisions USING btree (sha1);
-
-
---
--- Name: index_revisions_on_tags; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_revisions_on_tags ON revisions USING gin (tags);
 
 
 --

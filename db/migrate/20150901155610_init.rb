@@ -19,11 +19,17 @@ class Init < ActiveRecord::Migration
 
       t.text :visibility
 
+      t.column :tags, "text[]"
+
       t.belongs_to :user
+
+      t.datetime :created_at
     end
 
     add_index :creations, :title
     add_index :creations, :user_id
+    add_index :creations, :created_at
+    execute "CREATE INDEX index_creations_on_tags ON creations USING gin (tags);"
 
     create_table :revisions do |t|
       t.text :sha1
@@ -35,15 +41,13 @@ class Init < ActiveRecord::Migration
 
       t.text :type
 
-      t.column :tags, "text[]"
-
       t.datetime :created_at
     end
 
     add_index :revisions, :sha1, unique: true
     add_index :revisions, :creation_id
     add_index :revisions, :type
-    execute "CREATE INDEX index_revisions_on_tags ON revisions USING gin (tags);"
+    add_index :revisions, :created_at
 
     create_table :comments do |t|
       t.belongs_to :user
