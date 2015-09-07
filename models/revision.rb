@@ -3,10 +3,10 @@ class Revision < ActiveRecord::Base
 
   belongs_to :creation
 
-  validates :sha1, length: { is: 20 }
+  validates :sha1, length: { is: 40 }
   validates :filesize, presence: true
-  validates :type, presence: true
-  validates :title, presence: true
-  validates :created_at, presence: true
   validates :creation, presence: true
+  validates :title, presence: true
+  validates :type, presence: true
+  validates :created_at, presence: true
 end

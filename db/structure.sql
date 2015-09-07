@@ -36,8 +36,8 @@ SET default_with_oids = false;
 CREATE TABLE comments (
     id integer NOT NULL,
     user_id integer,
-    commentable_id integer,
-    commentable_type character varying,
+    creation_id integer,
+    ancestry text,
     comment text,
     rating integer,
     created_at timestamp without time zone,
@@ -235,10 +235,17 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: index_comments_on_commentable_type_and_commentable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_comments_on_ancestry; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_comments_on_commentable_type_and_commentable_id ON comments USING btree (commentable_type, commentable_id);
+CREATE INDEX index_comments_on_ancestry ON comments USING btree (ancestry);
+
+
+--
+-- Name: index_comments_on_creation_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_comments_on_creation_id ON comments USING btree (creation_id);
 
 
 --

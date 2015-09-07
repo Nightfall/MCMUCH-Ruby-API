@@ -8,6 +8,7 @@ gem "grape-activerecord"
 gem "pg"
 
 gem "activeuuid"
+gem "ancestry"
 
 gem "require_all"
 
@@ -16,6 +17,9 @@ group :development do
   gem "binding_of_caller"
 
   gem "rubocop"
+
+  gem "pry"
+  gem "gist"
 end
 
 group :production do

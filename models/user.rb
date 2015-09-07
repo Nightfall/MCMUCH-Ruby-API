@@ -12,6 +12,11 @@ class User < ActiveRecord::Base
   validates :created_at, presence: true
   validates :last_login, presence: true
 
+  def serializable_hash(options = nil)
+    options ||= {}
+    super({ except: :mojang_uuid }.merge(options))
+  end
+
   after_initialize :defaults
   def defaults
     self.role ||= "user" if self.has_attribute? :role

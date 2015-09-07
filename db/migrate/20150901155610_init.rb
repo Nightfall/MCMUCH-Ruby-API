@@ -51,8 +51,9 @@ class Init < ActiveRecord::Migration
 
     create_table :comments do |t|
       t.belongs_to :user
+      t.belongs_to :creation
 
-      t.belongs_to :commentable, polymorphic: true, index: true
+      t.text :ancestry
 
       t.text :comment
       t.integer :rating
@@ -62,5 +63,7 @@ class Init < ActiveRecord::Migration
     end
 
     add_index :comments, :user_id
+    add_index :comments, :creation_id
+    add_index :comments, :ancestry
   end
 end
