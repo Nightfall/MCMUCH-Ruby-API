@@ -11,4 +11,11 @@ class User < ActiveRecord::Base
   validates :role, presence: true, inclusion: { in: %w(user moderator admin) }
   validates :created_at, presence: true
   validates :last_login, presence: true
+
+  after_initialize :defaults
+  def defaults
+    self.role ||= "user" if self.has_attribute? :role
+    self.created_at ||= DateTime.now if self.has_attribute? :created_at
+    self.last_login ||= DateTime.now if self.has_attribute? :last_login
+  end
 end

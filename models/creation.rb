@@ -7,4 +7,15 @@ class Creation < ActiveRecord::Base
   validates :title, presence: true
   validates :visibility, inclusion: { in: %w(public unlisted private) }
   validates :user, presence: true
+
+  def as_json(options = {})
+    super(
+      {
+        except: :user_id,
+        include: {
+          user: { only: :id }
+        }
+      }.merge(options)
+    )
+  end
 end
